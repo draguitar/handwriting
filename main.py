@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 def _intersection(a, b):
     """
     判断两个 rect 是否相交
@@ -39,6 +40,9 @@ def SortPoint(points):
     :return: 排序完成的点集
     """
     sp = sorted(points, key=lambda x: (int(x[1]), int(x[0])))
+    print()
+    print(sp)
+    print()
     if sp[0][0] > sp[1][0]:
         sp[0], sp[1] = sp[1], sp[0]
 
@@ -59,7 +63,7 @@ contours, hierarchy = cv2.findContours( edges.copy(), cv2.RETR_TREE, cv2.CHAIN_A
 hierarchy = hierarchy[0]
 # cv2.drawContours(img, contours, -1, (0,0,255),2)
 
-
+print(len(contours))
 found = []
 
 for i in range(len(contours)):
@@ -86,11 +90,12 @@ for i in range(len(contours)):
     else:
         continue
 
+
 temp_contours = []
 for i in found:
     temp_contours.append(contours[i])
 
-
+'''
 candidate_contours = []
 candidate_contours.append(contours[0])
 
@@ -99,7 +104,9 @@ for i in range(1, 12):
         continue
     else:
         candidate_contours.append(contours[i])
-        
+
+print(len(candidate_contours))
+
 if len(candidate_contours) >= 4:
     candidate_contours = candidate_contours[0:4]
     for i in range(4):
@@ -115,14 +122,22 @@ if len(candidate_contours) >= 4:
     location_points = SortPoint(location_points)
     # return location_points
 else:
+    print(len(contours))
     for i in range(len(contours)):
         cv2.drawContours(img, contours, i, (255, 255, 0), 2, cv2.LINE_AA)
         print("未找到足够的定位点")
+'''
+# # 透视变换，转换为正视图
+# pts1 = np.float32(sp)
+# pts2 = np.float32([[0, 0], [1000, 0], [0, 750], [1000, 750]])
+# transform = cv2.getPerspectiveTransform(pts1, pts2)
+# warpedimg = cv2.warpPerspective(img, transform, (1000, 750))
 
-''''''
+'''
 # 顯示圖片
 cv2.imshow('My Image', img)
 
 # 按下任意鍵則關閉所有視窗
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+'''
