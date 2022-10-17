@@ -2,18 +2,6 @@ import cv2
 import numpy as np
 sp = np.float32()
 
-def order_points(pts):
-    ''' sort rectangle points by clockwise '''
-    sort_x = pts[np.argsort(pts[:, 0]), :]
-
-    Left = sort_x[:2, :]
-    Right = sort_x[2:, :]
-    # Left sort
-    Left = Left[np.argsort(Left[:,1])[::-1], :]
-    # Right sort
-    Right = Right[np.argsort(Right[:,1]), :]
-
-    return np.concatenate((Left, Right), axis=0)
 
 def SortPoint(points):
     """
@@ -61,7 +49,7 @@ def is_duplicate(c, contours):
             continue
     return False
 
-img = cv2.imread('image_1.png')
+img = cv2.imread('step_2.png')
 print(img.shape)
 
 top = int(img.shape[0]*0.3)
@@ -75,7 +63,7 @@ right = left = int(img.shape[1]*0.6)
 gray = cv2.cvtColor(img.copy(), cv2.COLOR_BGR2GRAY)
 _, binary = cv2.threshold(
     gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-blur = cv2.GaussianBlur(binary, (5, 5), 0)
+blur = cv2.GaussianBlur(binary, (3, 3), 0)
 edges = cv2.Canny(blur, 100, 300)
 
 contours, hierarchy = cv2.findContours(
