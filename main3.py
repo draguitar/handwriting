@@ -49,7 +49,7 @@ def is_duplicate(c, contours):
             continue
     return False
 
-img = cv2.imread('step_2.png')
+img = cv2.imread('Eng2.png')
 print(img.shape)
 
 top = int(img.shape[0]*0.3)
